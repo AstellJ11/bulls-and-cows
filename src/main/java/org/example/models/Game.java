@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Game {
 
     private int id;
-    private LocalDate startedTime;
+    private String startedTime;
     private int numberOfGuesses;
     private String answer;
     private Boolean isWon;
@@ -13,7 +13,7 @@ public class Game {
     public Game() {
     }
 
-    public Game(int id, LocalDate startedTime, int numberOfGuesses, String answer, Boolean isWon) {
+    public Game(int id, String startedTime, int numberOfGuesses, String answer, Boolean isWon) {
         this.id = id;
         this.startedTime = startedTime;
         this.numberOfGuesses = numberOfGuesses;
@@ -29,11 +29,11 @@ public class Game {
         this.id = id;
     }
 
-    public LocalDate getStartedTime() {
+    public String getStartedTime() {
         return startedTime;
     }
 
-    public void setStartedTime(LocalDate startedTime) {
+    public void setStartedTime(String startedTime) {
         this.startedTime = startedTime;
     }
 
