@@ -2,6 +2,7 @@ package org.example.data;
 
 import org.example.models.Game;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
+@Profile("database")
 public class DatabaseDao implements Dao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -29,9 +31,17 @@ public class DatabaseDao implements Dao {
     }
 
     @Override
-    public Game getById(int id) {
-        return null;
+    public List<Game> displayAll() throws SQLException {
+        List<Game> games = jdbcTemplate.query("SELECT * FROM Game", new GameMapper());
+        return games;
     }
+
+    @Override
+    public Game getById(int id) {
+        final String sql = "SELECT game_id, startedTime, numberOfGuesses, answer, isWon FROM Game WHERE game_id = ?;";
+        return jdbcTemplate.queryForObject(sql, new GameMapper(), id);
+    }
+
 
     // Mapper
     private static final class GameMapper implements RowMapper<Game> {

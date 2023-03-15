@@ -6,7 +6,7 @@ USE BullsAndCowsDB;
 
 CREATE TABLE Game (
 	game_id INT PRIMARY KEY AUTO_INCREMENT,
-    /*startedTime DATETIME,*/
+    startedTime VARCHAR(50),
     numberOfGuesses INT,
     answer VARCHAR(4),
     isWon BOOLEAN
