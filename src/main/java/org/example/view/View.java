@@ -51,7 +51,6 @@ public class View {
     public void displayAll(List<Game> gameList) {
         for (Game currentGame : gameList) {
             String gameInfo = "\nGame ID: " + currentGame.getId()
-                    + "\nStarted Time: " + currentGame.getStartedTime()
                     + "\nNumber of Guesses: " + currentGame.getNumberOfGuesses()
                     + "\nCorrect answer: " + currentGame.getAnswer()
                     + "\nGame won? " + currentGame.getWon()
@@ -73,7 +72,6 @@ public class View {
         //Game game = new Game();
 
         String gameInfo = "\nGame ID: " + game.getId()
-                + "\nStarted Time: " + game.getStartedTime()
                 + "\nNumber of Guesses: " + game.getNumberOfGuesses()
                 + "\nCorrect answer: " + game.getAnswer()
                 + "\nGame won? " + game.getWon()

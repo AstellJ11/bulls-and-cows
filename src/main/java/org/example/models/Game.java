@@ -1,11 +1,11 @@
 package org.example.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Game {
 
     private int id;
-    private String startedTime;
     private int numberOfGuesses;
     private String answer;
     private Boolean isWon;
@@ -13,9 +13,8 @@ public class Game {
     public Game() {
     }
 
-    public Game(int id, String startedTime, int numberOfGuesses, String answer, Boolean isWon) {
+    public Game(int id, int numberOfGuesses, String answer, Boolean isWon) {
         this.id = id;
-        this.startedTime = startedTime;
         this.numberOfGuesses = numberOfGuesses;
         this.answer = answer;
         this.isWon = isWon;
@@ -27,14 +26,6 @@ public class Game {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getStartedTime() {
-        return startedTime;
-    }
-
-    public void setStartedTime(String startedTime) {
-        this.startedTime = startedTime;
     }
 
     public int getNumberOfGuesses() {
@@ -65,7 +56,6 @@ public class Game {
     public String toString() {
         return "Game{" +
                 "gameID=" + id +
-                ", startedTime=" + startedTime +
                 ", numberOfGuesses=" + numberOfGuesses +
                 ", answer='" + answer + '\'' +
                 ", isWon=" + isWon +
