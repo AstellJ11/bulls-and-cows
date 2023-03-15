@@ -9,8 +9,6 @@ public interface Dao {
 
     List<Game> getAll();
 
-    List<Game> displayAll() throws SQLException;
-
     Game getById(int id);
 
 

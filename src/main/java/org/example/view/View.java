@@ -45,9 +45,11 @@ public class View {
         System.out.println("Invalid command. Please try again.");
     }
 
+
+    /* --------------------------------------- Display All --------------------------------------- */
+
     public void displayAll(List<Game> gameList) {
-        //System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
-        for (Game currentGame: gameList) {
+        for (Game currentGame : gameList) {
             String gameInfo = "\nGame ID: " + currentGame.getId()
                     + "\nStarted Time: " + currentGame.getStartedTime()
                     + "\nNumber of Guesses: " + currentGame.getNumberOfGuesses()
@@ -57,6 +59,28 @@ public class View {
 
             System.out.println(gameInfo);
         }
+        io.readString("Please press enter to continue.");
+    }
+
+
+    /* -------------------------------------- Display by ID -------------------------------------- */
+
+    public int getGameIdChoice() {
+        return io.readInt("Please enter a valid game ID value:");
+    }
+
+    public void displayById(Game game) {
+        //Game game = new Game();
+
+        String gameInfo = "\nGame ID: " + game.getId()
+                + "\nStarted Time: " + game.getStartedTime()
+                + "\nNumber of Guesses: " + game.getNumberOfGuesses()
+                + "\nCorrect answer: " + game.getAnswer()
+                + "\nGame won? " + game.getWon()
+                + "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *";
+
+        System.out.println(gameInfo);
+
         io.readString("Please press enter to continue.");
     }
 

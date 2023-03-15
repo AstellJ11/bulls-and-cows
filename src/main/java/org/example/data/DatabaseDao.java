@@ -26,12 +26,6 @@ public class DatabaseDao implements Dao {
 
     @Override
     public List<Game> getAll() {
-        final String sql = "SELECT game_id, startedTime, numberOfGuesses, answer, isWon FROM Game;";
-        return jdbcTemplate.query(sql, new GameMapper());
-    }
-
-    @Override
-    public List<Game> displayAll() throws SQLException {
         List<Game> games = jdbcTemplate.query("SELECT * FROM Game", new GameMapper());
         return games;
     }

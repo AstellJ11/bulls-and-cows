@@ -4,7 +4,6 @@ package org.example.controllers;
 import org.example.data.Dao;
 import org.example.models.Game;
 import org.example.view.View;
-import org.springframework.boot.SpringApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,7 @@ public class Controller {
         this.view = view;
     }
 
-    public void runProgram() throws SQLException {
+    public void runProgram() {
         boolean keepGoing = true;
         int menuSelection = 0;
 
@@ -44,7 +43,7 @@ public class Controller {
                     displayAll();
                     break;
                 case 3:
-                    // REPLACE
+                    displayById();
                     break;
                 case 4:
                     keepGoing = false;
@@ -55,16 +54,22 @@ public class Controller {
         }
         view.displayExitBanner();
     }
-    
+
+
+    /* ------------------------------------ Return all games ------------------------------------- */
+
     @GetMapping
-    public List<Game> all() {
+    public List<Game> getAll() {
         return dao.getAll();
     }
 
-    public void displayAll() throws SQLException {
-        List<Game> gameList = dao.displayAll();
+    public void displayAll() {
+        List<Game> gameList = dao.getAll();
         view.displayAll(gameList);
     }
+
+
+    /* ----------------------------------- Return game by ID ------------------------------------- */
 
     @GetMapping("/{id}")
     public ResponseEntity<Game> getById(@PathVariable int id) {
@@ -73,6 +78,12 @@ public class Controller {
             return new ResponseEntity(null, HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(result);
+    }
+
+    public void displayById() {
+        int id = view.getGameIdChoice();
+        Game gameList = dao.getById(id);
+        view.displayById(gameList);
     }
 
 
