@@ -46,6 +46,27 @@ public class View {
     }
 
 
+    /* -------------------------------------- Playing game --------------------------------------- */
+
+    public String getUserGuess(int roundNumber) {
+        System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+        return io.readGuess("Round Number: " + roundNumber
+                + "\nPlease enter a guess in the format xxxx:");
+    }
+
+    public void displayUserWon(int roundNumber) {
+        System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+        System.out.println("\n\n\nCongratulations! You guessed the answer in " + roundNumber + " rounds!");
+        io.readString("Please press enter to continue.");
+    }
+
+    public void displayUserLost() {
+        System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+        System.out.println(("\n\n\nUnfortunately you have ran out of attempts ;("));
+        io.readString("Please press enter to continue.");
+    }
+
+
     /* --------------------------------------- Display All --------------------------------------- */
 
     public void displayAll(List<Game> gameList) {

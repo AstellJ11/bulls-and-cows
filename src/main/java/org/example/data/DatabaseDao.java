@@ -35,7 +35,7 @@ public class DatabaseDao implements Dao {
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, 0);
-            statement.setString(2, "4321");
+            statement.setString(2, "4321");  // Generate this later
             statement.setBoolean(3, false);
 
             return statement;
@@ -46,12 +46,53 @@ public class DatabaseDao implements Dao {
 
         // Return the newly created game so we can view in Postman
         // USE THIS METHOD IF WANT TO VIEW CREATED GAME IN POSTMAN
-/*        final String sqlGet = "SELECT game_id, numberOfGuesses, answer, isWon " +
+        /*final String sqlGet = "SELECT game_id, numberOfGuesses, answer, isWon " +
                 "FROM Game WHERE game_id = ?;";
         return jdbcTemplate.queryForObject(sqlGet, new GameMapper(), keyHolder.getKey().intValue());*/
 
         // This returns a blank game in Postman, just the id as requested by the brief
         return game;
+    }
+
+    @Override
+    public Game createGame() {
+
+        final String sql = "INSERT INTO Game(numberOfGuesses, answer, isWon) VALUES(?,?,?);";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update((Connection conn) -> {
+
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setInt(1, 0);
+            statement.setString(2, "4321");  // Generate this later
+            statement.setBoolean(3, false);
+
+            return statement;
+
+        }, keyHolder);
+
+        Game currentGame = new Game();
+        currentGame.setId(keyHolder.getKey().intValue());  // Assign auto incremented id to Game object
+
+        return currentGame = getById(currentGame.getId());  // Call the rest of the game by the id using the getById
+    }
+
+    @Override
+    public Boolean compareGuess(Game game, String userGuess) {
+        // Convert strings to int arrays
+        int[] answerArray = convertToIntArray(game.getAnswer());
+        int[] guessArray = convertToIntArray(userGuess);
+
+        int bulls = countBulls(answerArray, guessArray);
+        int cows = countCows(answerArray, guessArray);
+
+        if (bulls == 4) {
+            return true;
+        } else {
+            System.out.println("Bulls: " + bulls + " Cows: " + cows);
+            return false;
+        }
     }
 
     @Override
@@ -81,5 +122,42 @@ public class DatabaseDao implements Dao {
 
             return game;
         }
+    }
+
+    public int[] convertToIntArray(String s) {
+        int[] intArray = new int[4];
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            intArray[i] = Character.getNumericValue(c);
+        }
+
+        return intArray;
+    }
+
+    public int countBulls(int[] answer, int[] guess) {
+        int bulls = 0;
+
+        for (int i = 0; i < answer.length; i++) {
+            if (answer[i] == guess[i]) {
+                bulls++;
+            }
+        }
+
+        return bulls;
+    }
+
+    public int countCows(int[] answer, int[] guess) {
+        int cows = 0;
+
+        for (int i = 0; i < answer.length; i++) {
+            for (int j = 0; j < guess.length; j++) {
+                if (answer[i] == guess[j] && i != j) {
+                    cows++;
+                }
+            }
+        }
+
+        return cows;
     }
 }

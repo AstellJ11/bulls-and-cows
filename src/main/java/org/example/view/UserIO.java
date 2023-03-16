@@ -14,6 +14,8 @@ public interface UserIO {
      */
     String readString(String prompt);
 
+    String readGuess(String prompt);
+
     /**
      * A method that takes in a message to display on the console,
      * and then waits for an integer answer from the user before continuing.
@@ -22,10 +24,6 @@ public interface UserIO {
      * @return the answer to the message as int
      */
     int readInt(String prompt);
-
-    LocalDate readDate(String prompt);
-
-    String readYN();
 
 
 }

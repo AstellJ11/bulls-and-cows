@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -34,7 +33,7 @@ public class Controller {
 
             switch (menuSelection) {
                 case 1:
-                    // REPLACE
+                    playGame();
                     break;
                 case 2:
                     displayAll();
@@ -60,6 +59,27 @@ public class Controller {
     @ResponseStatus(HttpStatus.CREATED)
     public Game startGame(Game game) {
         return dao.startGame(game);
+    }
+
+    public void playGame() {
+        Boolean isWon = false;
+        int roundNumber = 0;
+
+        Game game = dao.createGame();  // Create a brand-new game
+
+        do {
+            roundNumber++;
+            String userGuess = view.getUserGuess(roundNumber);  // Gather the users guess
+            isWon = dao.compareGuess(game, userGuess);
+        } while (!isWon && roundNumber < 10);
+
+        if (isWon) {
+            view.displayUserWon(roundNumber);
+        } else {
+            view.displayUserLost();
+        }
+
+        // TODO: NEED TO REPORT BACK TO DB ONCE GAME HAS FINISHED
     }
 
 

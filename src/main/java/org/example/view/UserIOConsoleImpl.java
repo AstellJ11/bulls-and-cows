@@ -40,40 +40,18 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     @Override
-    public LocalDate readDate(String prompt) {
-        LocalDate date = null;
-        boolean validInput = true;
-
-        do {
-            try {
-                System.out.println(prompt);
-                String stringInput = console.nextLine();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
-                date = LocalDate.parse(stringInput, formatter);
-                validInput = true;
-
-            } catch (DateTimeException e) {
-                System.out.println("Input error. Date is not in the correct format. Please try again.");
-                validInput = false;
-            }
-        } while (!validInput);
-
-        return date;
-    }
-
-    @Override
-    public String readYN() {
+    public String readGuess(String prompt) {
         String string = null;
         boolean validInput = true;
 
         do {
-            String stringInput = console.nextLine();
+            String stringInput = readString(prompt);
 
-            if (stringInput.equals("Y") || stringInput.equals("N")) {
+            if (stringInput.length() == 4) {
                 string = stringInput;
                 validInput = true;
             } else {
-                System.out.println("Input error. Please enter Y or N.");
+                System.out.println("Input error. Please enter a guess in the correct format.");
                 validInput = false;
             }
         } while (!validInput);
