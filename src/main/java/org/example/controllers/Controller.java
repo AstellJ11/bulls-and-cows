@@ -3,6 +3,7 @@ package org.example.controllers;
 
 import org.example.data.Dao;
 import org.example.models.Game;
+import org.example.models.Round;
 import org.example.view.View;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,11 +56,15 @@ public class Controller {
 
     /* ------------------------------------ Start a new game ------------------------------------- */
 
+    // POST ("begin")
     @PostMapping("/begin")
     @ResponseStatus(HttpStatus.CREATED)
     public Game startGame(Game game) {
         return dao.startGame(game);
     }
+
+
+    /* ------------------------------------ Playing the game ------------------------------------- */
 
     public void playGame() {
         Boolean isWon = false;
@@ -87,8 +92,20 @@ public class Controller {
     }
 
 
+    /* -------------------------------------- Make a guess --------------------------------------- */
+
+    // POST ("guess")
+    @PostMapping("/guess")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Round guess(@RequestBody Round round) {
+        view.displayGuessPostman();
+        return dao.guess(round);
+    }
+
+
     /* ------------------------------------ Return all games ------------------------------------- */
 
+    // GET ("game")
     @GetMapping
     public List<Game> getAll() {
         return dao.getAll();
@@ -102,6 +119,7 @@ public class Controller {
 
     /* ----------------------------------- Return game by ID ------------------------------------- */
 
+    // GET ("game/id")
     @GetMapping("/{id}")
     public ResponseEntity<Game> getById(@PathVariable int id) {
         Game result = dao.getById(id);

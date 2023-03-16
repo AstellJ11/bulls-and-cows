@@ -16,3 +16,8 @@ INSERT INTO Game (numberofGuesses, answer, isWon)
     ('4', '1234', 1),
     ('10', '4321', 0),
     ('8', '7894', 1);
+    
+CREATE TABLE Guess (
+	game_id INT PRIMARY KEY AUTO_INCREMENT,
+    guess VARCHAR(4)
+);

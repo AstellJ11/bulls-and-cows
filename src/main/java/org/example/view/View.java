@@ -66,6 +66,11 @@ public class View {
         io.readString("Please press enter to continue.");
     }
 
+    public void displayGuessPostman() {
+        System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+        System.out.println("Making a guess via Postman...");
+    }
+
 
     /* --------------------------------------- Display All --------------------------------------- */
 

@@ -1,6 +1,7 @@
 package org.example.data;
 
 import org.example.models.Game;
+import org.example.models.Round;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 @Profile("database")
@@ -78,6 +80,45 @@ public class DatabaseDao implements Dao {
     }
 
     @Override
+    public Round guess(Round round) {
+        final String sql = "INSERT INTO Guess(game_id, guess) VALUES(?,?);";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update((Connection conn) -> {
+
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            statement.setInt(1, round.getId());
+            statement.setString(2, round.getGuess());
+
+            return statement;
+
+        }, keyHolder);
+
+        // Read the game from sql DB to find entry with that ID
+        final String sqlRead = "SELECT * FROM Game WHERE game_id = ?;";
+        Game game = jdbcTemplate.queryForObject(sqlRead, new GameMapper(), round.getId());
+
+        // Once we have the Round object from Postman we delete the DB entry to allow duplicate entry's for the next
+        // round
+        final String sqlDelete = "DELETE FROM Guess WHERE game_id = ?;";
+        jdbcTemplate.update(sqlDelete, round.getId());
+
+        compareGuess(game, round.getGuess());
+
+        // If correct guess, mark game as finished (Can't track number of guess via Postman sadly
+        if (Objects.equals(game.getAnswer(), round.getGuess())) {
+            System.out.println("You won!");
+            game.setWon(true);
+
+            final String sqlWon = "UPDATE Game SET isWon = ? WHERE game_id = ?;";
+
+            jdbcTemplate.update(sqlWon, game.getWon(), game.getId());
+        }
+        return round;
+    }
+
+    @Override
     public Boolean compareGuess(Game game, String userGuess) {
         // Convert strings to int arrays
         int[] answerArray = convertToIntArray(game.getAnswer());
@@ -90,9 +131,6 @@ public class DatabaseDao implements Dao {
             System.out.println("Bulls: " + bulls + " Cows: " + cows);
             return false;
         } else {
-            // Game won, report to DB
-
-
             return true;
         }
     }
