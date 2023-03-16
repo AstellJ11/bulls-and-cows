@@ -14,5 +14,5 @@ CREATE TABLE Game (
 INSERT INTO Game (numberofGuesses, answer, isWon)
     VALUES 
     ('4', '1234', 1),
-    ('7', '4321', 0),
-    ('1', '7894', 0);
+    ('10', '4321', 0),
+    ('8', '7894', 1);

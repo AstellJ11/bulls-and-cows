@@ -75,11 +75,15 @@ public class Controller {
 
         if (isWon) {
             view.displayUserWon(roundNumber);
+            game.setNumberOfGuesses(roundNumber);
+            game.setWon(true);
         } else {
             view.displayUserLost();
+            game.setNumberOfGuesses(roundNumber);
+            game.setWon(false);
         }
 
-        // TODO: NEED TO REPORT BACK TO DB ONCE GAME HAS FINISHED
+        dao.updateDB(game);  // Return the result of the game to the DB
     }
 
 

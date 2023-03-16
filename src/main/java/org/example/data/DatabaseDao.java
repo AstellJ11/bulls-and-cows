@@ -9,7 +9,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -87,12 +86,29 @@ public class DatabaseDao implements Dao {
         int bulls = countBulls(answerArray, guessArray);
         int cows = countCows(answerArray, guessArray);
 
-        if (bulls == 4) {
-            return true;
-        } else {
+        if (!(bulls == 4)) {
             System.out.println("Bulls: " + bulls + " Cows: " + cows);
             return false;
+        } else {
+            // Game won, report to DB
+
+
+            return true;
         }
+    }
+
+    public Boolean updateDB(Game game) {
+        final String sql = "UPDATE Game SET "
+                + "numberOfGuesses = ?, "
+                + "answer = ?, "
+                + "isWon = ? "
+                + "WHERE game_id = ?;";
+
+        return jdbcTemplate.update(sql,
+                game.getNumberOfGuesses(),
+                game.getAnswer(),
+                game.getWon(),
+                game.getId()) > 0;
     }
 
     @Override

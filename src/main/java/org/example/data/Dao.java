@@ -12,6 +12,8 @@ public interface Dao {
 
     Boolean compareGuess(Game game, String userGuess);
 
+    Boolean updateDB(Game game);
+
     List<Game> getAll();
 
     Game getById(int id);
