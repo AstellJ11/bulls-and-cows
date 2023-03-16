@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @Repository
 @Profile("database")
@@ -36,7 +37,7 @@ public class DatabaseDao implements Dao {
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, 0);
-            statement.setString(2, "4321");  // Generate this later
+            statement.setString(2, generateRandom());
             statement.setBoolean(3, false);
 
             return statement;
@@ -66,7 +67,7 @@ public class DatabaseDao implements Dao {
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             statement.setInt(1, 0);
-            statement.setString(2, "4321");  // Generate this later
+            statement.setString(2, generateRandom());
             statement.setBoolean(3, false);
 
             return statement;
@@ -178,6 +179,13 @@ public class DatabaseDao implements Dao {
         }
     }
 
+    /**
+     * Method to covert a string of 4 numbers in the format 'xxxx'
+     * to an array of 4 integers
+     *
+     * @param s String to be converted
+     * @return Array of 4 integers
+     */
     public int[] convertToIntArray(String s) {
         int[] intArray = new int[4];
 
@@ -214,4 +222,23 @@ public class DatabaseDao implements Dao {
 
         return cows;
     }
+
+    /**
+     * Method to generate a random answer in String format
+     *
+     * @return A random String of 4 integers 'xxxx'
+     */
+    public String generateRandom() {
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < 4; i++) {
+            int digit = random.nextInt(10);
+            stringBuilder.append(digit);
+        }
+
+        return stringBuilder.toString();
+    }
+
+
 }
