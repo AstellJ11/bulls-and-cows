@@ -21,5 +21,7 @@ public interface Dao {
 
     Game getById(int id);
 
+    Boolean deleteRoomById(int id);
+
 
 }

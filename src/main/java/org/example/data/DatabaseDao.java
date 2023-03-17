@@ -10,9 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 @Repository
 @Profile("database")
@@ -162,6 +160,12 @@ public class DatabaseDao implements Dao {
         return jdbcTemplate.queryForObject(sql, new GameMapper(), id);
     }
 
+    @Override
+    public Boolean deleteRoomById(int id) {
+        final String sql = "DELETE FROM Game WHERE id = ?;";
+        return jdbcTemplate.update(sql, id) > 0;
+    }
+
 
     // Mapper
     private static final class GameMapper implements RowMapper<Game> {
@@ -229,12 +233,13 @@ public class DatabaseDao implements Dao {
      * @return A random String of 4 integers 'xxxx'
      */
     public String generateRandom() {
-        Random random = new Random();
-        StringBuilder stringBuilder = new StringBuilder();
+        // Use a list of digits and take from the list as an easy way to ensure no duplicates
+        List<Integer> digits = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+        Collections.shuffle(digits);
 
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 4; i++) {
-            int digit = random.nextInt(10);
-            stringBuilder.append(digit);
+            stringBuilder.append(digits.get(i));
         }
 
         return stringBuilder.toString();

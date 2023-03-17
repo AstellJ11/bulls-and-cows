@@ -76,7 +76,6 @@ public class Controller {
             roundNumber++;
             String userGuess = view.getUserGuess(roundNumber);  // Gather the users guess
             isWon = dao.compareGuess(game, userGuess);
-            System.out.println(game.getAnswer());
         } while (!isWon && roundNumber < 10);
 
         if (isWon) {
