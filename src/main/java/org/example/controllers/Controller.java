@@ -60,7 +60,7 @@ public class Controller {
     @PostMapping("/begin")
     @ResponseStatus(HttpStatus.CREATED)
     public Game startGame(Game game) {
-        return dao.startGame(game);
+        return dao.beginGame(game);
     }
 
 

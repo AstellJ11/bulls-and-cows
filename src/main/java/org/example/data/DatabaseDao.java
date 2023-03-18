@@ -25,7 +25,7 @@ public class DatabaseDao implements Dao {
 
 
     @Override
-    public Game startGame(Game game) {
+    public Game beginGame(Game game) {
 
         final String sql = "INSERT INTO Game(numberOfGuesses, answer, isWon) VALUES(?,?,?);";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
